@@ -17,12 +17,12 @@ def main():
     nombre_aleatoire= random.randrange(101)
     sequence = []
     tentatives = 10
+    tent = 0
+
+    trouver_nombre(nombre_aleatoire, sequence, tentatives, tent)
 
 
-    trouver_nombre(nombre_aleatoire, sequence, tentatives)
-
-
-def trouver_nombre(nombre_aleatoire, sequence, tentatives):
+def trouver_nombre(nombre_aleatoire, sequence, tentatives, tent):
     """
     Affiche progressivement une séquence de nombre à partir de 1 en montant
 
@@ -33,7 +33,7 @@ def trouver_nombre(nombre_aleatoire, sequence, tentatives):
 
     while chiffre != nombre_aleatoire:
 
-        chiffre = lire_chiffre(nrEssai, tentatives)
+        chiffre = lire_chiffre(nrEssai, sequence, nombre_aleatoire)
         sequence.append(chiffre)
         nrEssai += 1
 
@@ -45,20 +45,17 @@ def trouver_nombre(nombre_aleatoire, sequence, tentatives):
          print("> Votre nombre est trop petit...")
          verifier_nb_essai(nrEssai, nombre_aleatoire, tentatives)
 
-    print("> Bravo, vous avez deviné le nombre")
-    print("> Votre séquence gagnante est:", sequence)
-    recommencer()
+    gagner(sequence)
 
-def  lire_chiffre(nr, tentatives):
+def  lire_chiffre(nr, sequence, nr_aleatoire):
     while True:
         try:
             print("Essai ", nr, ": ", end='')
             # chiffre = int(input())
             ligne = input()
+            verifier(ligne, nr, sequence, nr_aleatoire)
+
             chiffre = int(ligne)
-            #if ligne == 'PPP':
-             #   sortir(tentatives)
-              #  return ligne
         except ValueError:
             print(">>> ERREUR: Entrez un nombre entier svp")
             continue
@@ -72,8 +69,15 @@ def verifier_nb_essai(nr, nr_aleatoire, tentatives):
         print("> Le nombre choisi était: ", nr_aleatoire)
         recommencer()
 
-def sortir(tentatives):
-    print("> Désolé, vous avez échoué après ", tentatives, "tentatives")
+def  gagner(sequence):
+    print("> Bravo, vous avez deviné le nombre")
+    print("> Votre séquence gagnante est:", sequence)
+    recommencer()
+
+def echouer(nr, nr_aleatoire):
+    print("> Désolé, vous avez échoué après ", nr, "tentatives")
+    print("> Le nombre choisi était: ", nr_aleatoire)
+    recommencer()
 
 def recommencer():
 
@@ -85,14 +89,20 @@ def recommencer():
             nombre_aleatoire = random.randrange(101)
             sequence = []
             tentatives = 10
-            trouver_nombre(nombre_aleatoire, sequence, tentatives)
+            tent = 0
+            trouver_nombre(nombre_aleatoire, sequence, tentatives, tent)
         elif reponse == 'N' or reponse == 'n' or reponse == 'non':
             print("Au revoir !")
             break
         else:
             print("Choix invalide")
 
-
+def verifier(ligne, nr, sequence, nr_aleatoire):
+    if ligne == 'PPP':
+       echouer(nr, nr_aleatoire)
+    if ligne == 'GGG':
+       sequence.append(ligne)
+       gagner(sequence)
 
 if __name__ == '__main__':
     main()
