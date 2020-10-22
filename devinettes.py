@@ -15,9 +15,10 @@ def main():
          "\nPouvez-vous le deviner?")
 
     nombre_aleatoire= random.randrange(101)
-    trouver_nombre(nombre_aleatoire)
+    sequence = []
+    trouver_nombre(nombre_aleatoire, sequence)
 
-def trouver_nombre(nombre_aleatoire):
+def trouver_nombre(nombre_aleatoire, sequence):
     """
     Affiche progressivement une séquence de nombre à partir de 1 en montant
 
@@ -29,18 +30,19 @@ def trouver_nombre(nombre_aleatoire):
     while chiffre != nombre_aleatoire:
 
         chiffre = lire_chiffre(nrEssai)
-
+        sequence.append(chiffre)
         nrEssai += 1
 
         if chiffre > nombre_aleatoire:
          print("> Votre nombre est trop grand...")
          verifier_nb_essai(nrEssai, nombre_aleatoire)
 
-        else:
+        elif chiffre < nombre_aleatoire:
          print("> Votre nombre est trop petit...")
          verifier_nb_essai(nrEssai, nombre_aleatoire)
 
     print("Bravo, vous avez deviné le nombre")
+    print("Votre séquence gagnante est:", sequence)
 
 def  lire_chiffre(nr):
     while True:
@@ -56,8 +58,8 @@ def  lire_chiffre(nr):
 
 def verifier_nb_essai(nr, nr_aleatoire):
     if nr == 11:
-        print("Désolé, vous avez échoué après 10 tentatives")
-        print("Le nombre choisi était: ", nr_aleatoire)
+        print("> Désolé, vous avez échoué après 10 tentatives")
+        print("> Le nombre choisi était: ", nr_aleatoire)
 
 if __name__ == '__main__':
     main()
