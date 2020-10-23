@@ -6,6 +6,7 @@ Par olga Cazacioc
 """
 import random
 
+# Constantes
 MAX_ESSAIS = 10
 NOMBRE_MAX = 100
 CHEAT_CODE_ECHOUER = 'PPP'
