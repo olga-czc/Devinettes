@@ -5,7 +5,11 @@ Jeu de devinettes.
 Par olga Cazacioc
 """
 import random
-import constant
+
+MAX_ESSAIS = 10
+NOMBRE_MAX = 100
+CHEAT_CODE_ECHOUER = 'PPP'
+CHEAT_CODE_GAGNER = 'GGG'
 
 
 def main():
@@ -15,7 +19,7 @@ def main():
     print("Bonjour, je m'appele Olax 2020 \nJ'ai choisi un nombre entier entre 1 et 100"
           "\nPouvez-vous le deviner?")
 
-    nombre_aleatoire = random.randrange(101)
+    nombre_aleatoire = random.randrange(NOMBRE_MAX)
     sequence = []
 
     tentatives = 0
@@ -71,7 +75,6 @@ def lire_chiffre(nr, sequence, nr_aleatoire, nb_parties_jouées, nb_essais_effec
     while True:
         try:
             print("Essai ", nr, ": ", end='')
-            # chiffre = int(input())
             ligne = input()
             verifier_ligne(ligne, nr, sequence, nr_aleatoire, nb_parties_jouées, nb_essais_effectués)
 
@@ -92,8 +95,8 @@ def verifier_nb_essai(nr_aleatoire, tentatives, nb_parties_jouées, nb_essais_ef
     :param nb_parties_jouées:
     :param nb_essais_effectués:
     """
-    if tentatives == constant.MAX_ESSAIS + 1:
-        print("> Désolé, vous avez échoué après ", constant.MAX_ESSAIS, "tentatives")
+    if tentatives == MAX_ESSAIS + 1:
+        print("> Désolé, vous avez échoué après ", MAX_ESSAIS, "tentatives")
         print("> Le nombre choisi était: ", nr_aleatoire)
         recommencer(nb_parties_jouées, nb_essais_effectués)
 
@@ -108,6 +111,7 @@ def gagner(sequence, nb_parties_jouées, nb_essais_effectués):
     """
     print("> Bravo, vous avez deviné le nombre")
     print("> Votre séquence gagnante est:", sequence)
+    nb_parties_jouées += 1
     recommencer(nb_parties_jouées, nb_essais_effectués)
 
 
@@ -137,13 +141,13 @@ def recommencer(nb_parties_jouées, nb_essais_effectués):
         print("Voulez-vous rejouer? [O/N] ", end='')
         reponse = input()
         print("")
-        nb_parties_jouées += 1
         if reponse == 'O' or reponse == 'o' or reponse == 'oui':
-            nombre_aleatoire = random.randrange(101)
+            nombre_aleatoire = random.randrange(NOMBRE_MAX)
             sequence = []
-            tentatives = 10
+            tentatives = 0
             trouver_nombre(nombre_aleatoire, sequence, tentatives, nb_parties_jouées, nb_essais_effectués)
         elif reponse == 'N' or reponse == 'n' or reponse == 'non':
+            nb_essais_effectués += 1
             print("   Nombre de parties jouées: ", nb_parties_jouées)
             print("  Nombre d'essais effectués: ", nb_essais_effectués)
             print("Moyenne d'essais par partie: ", nb_essais_effectués / nb_parties_jouées)
@@ -164,11 +168,10 @@ def verifier_ligne(ligne, nr, sequence, nr_aleatoire, nb_parties_jouées, nb_ess
     :param nb_parties_jouées:
     :param nb_essais_effectués:
     """
-    if ligne == 'PPP':
-        nb_essais_effectués += 1
+    if ligne == CHEAT_CODE_ECHOUER:
         echouer(nr, nr_aleatoire, nb_parties_jouées, nb_essais_effectués)
-    if ligne == 'GGG':
-        nb_essais_effectués += 1
+
+    elif ligne == CHEAT_CODE_GAGNER:
         sequence.append(ligne)
         gagner(sequence, nb_parties_jouées, nb_essais_effectués)
 
